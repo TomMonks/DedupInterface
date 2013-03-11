@@ -10,6 +10,8 @@ from PyQt4.QtGui import QFileDialog
 
 from Ui_MainWindow import Ui_MainWindow
 
+from dedupMacro import run_dedup
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     """
     Class documentation goes here.
@@ -36,9 +38,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
             
         self.txt_file.setText(fname)
-
-        
-
     
     @pyqtSignature("")
     def on_pushButton_2_clicked(self):
@@ -46,4 +45,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        run_dedup(str(self.txt_file.text()))

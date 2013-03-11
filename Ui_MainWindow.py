@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Python Projects\DedupInterface\MainWindow.ui'
 #
-# Created: Mon Mar 11 12:16:15 2013
+# Created: Mon Mar 11 12:27:06 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
