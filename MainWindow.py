@@ -85,8 +85,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         
-        msg = 'File does not exist with specified path and name'
-        QMessageBox.warning(self, 'Error', msg, QMessageBox.Close)
         # TODO: not implemented yet
         try:
             webbrowser.open(str(self.table_summary.item(row,  1).text()))
