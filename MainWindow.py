@@ -6,9 +6,12 @@ Module implementing MainWindow.
 
 from PyQt4.QtGui import QMainWindow
 from PyQt4.QtCore import pyqtSignature
-from PyQt4.QtGui import QFileDialog,  QSizePolicy
+from PyQt4.QtGui import QFileDialog,  QMessageBox
 
 from Ui_MainWindow import Ui_MainWindow
+
+
+import webbrowser
 
 from dedupMacro import run_dedup
 
@@ -75,3 +78,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.table_summary.item(2, 1).setText(fname[:-4] + '_dups.txt')
         self.table_summary.item(3, 1).setText(fname[:-4] + '_likely_dups.txt')
         self.table_summary.horizontalHeader().setStretchLastSection(True)
+    
+    @pyqtSignature("int, int")
+    def on_table_summary_cellDoubleClicked(self, row, column):
+        """
+        Slot documentation goes here.
+        """
+        
+        msg = 'File does not exist with specified path and name'
+        QMessageBox.warning(self, 'Error', msg, QMessageBox.Close)
+        # TODO: not implemented yet
+        try:
+            webbrowser.open(str(self.table_summary.item(row,  1).text()))
+        except IOError as e:
+            msg = 'File does not exist with specified path and name'
+            QMessageBox.warning(self, 'Error', msg, QMessageBox.Close)
+
+   
+            
