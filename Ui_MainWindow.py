@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Python Projects\DedupInterface\MainWindow.ui'
 #
-# Created: Mon Mar 11 11:24:45 2013
+# Created: Mon Mar 11 12:16:15 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -28,15 +28,15 @@ class Ui_MainWindow(object):
         self.pushButton = QtGui.QPushButton(self.tab)
         self.pushButton.setGeometry(QtCore.QRect(670, 10, 75, 23))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.lineEdit = QtGui.QLineEdit(self.tab)
-        self.lineEdit.setGeometry(QtCore.QRect(100, 10, 561, 20))
-        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
-        self.label = QtGui.QLabel(self.tab)
-        self.label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.label.setObjectName(_fromUtf8("label"))
+        self.lbl_file = QtGui.QLabel(self.tab)
+        self.lbl_file.setGeometry(QtCore.QRect(10, 10, 71, 16))
+        self.lbl_file.setObjectName(_fromUtf8("lbl_file"))
         self.pushButton_2 = QtGui.QPushButton(self.tab)
         self.pushButton_2.setGeometry(QtCore.QRect(10, 50, 75, 23))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.txt_file = QtGui.QLineEdit(self.tab)
+        self.txt_file.setGeometry(QtCore.QRect(90, 10, 571, 20))
+        self.txt_file.setObjectName(_fromUtf8("txt_file"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Reference Deduplicator", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "Browse...", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("MainWindow", "Reference file", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_file.setText(QtGui.QApplication.translate("MainWindow", "Reference file", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_2.setText(QtGui.QApplication.translate("MainWindow", "Run", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "Setup", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "Results", None, QtGui.QApplication.UnicodeUTF8))

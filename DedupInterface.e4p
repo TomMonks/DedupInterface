@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project DedupInterface -->
-<!-- Saved: 2013-03-11, 11:12:40 -->
+<!-- Saved: 2013-03-11, 12:08:52 -->
 <!-- Copyright (C) 2013 Tom Monks,  -->
 <Project version="4.6">
   <Language>en</Language>
@@ -13,6 +13,9 @@
   <Email></Email>
   <Sources>
     <Source>__init__.py</Source>
+    <Source>main.py</Source>
+    <Source>MainWindow.py</Source>
+    <Source>Ui_MainWindow.py</Source>
   </Sources>
   <Forms>
   </Forms>
@@ -24,6 +27,7 @@
   </Interfaces>
   <Others>
   </Others>
+  <MainScript>main.py</MainScript>
   <Vcs>
     <VcsType>None</VcsType>
   </Vcs>

@@ -6,6 +6,7 @@ Module implementing MainWindow.
 
 from PyQt4.QtGui import QMainWindow
 from PyQt4.QtCore import pyqtSignature
+from PyQt4.QtGui import QFileDialog
 
 from Ui_MainWindow import Ui_MainWindow
 
@@ -26,7 +27,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        fname = QFileDialog.getOpenFileName(\
+            None,
+            self.trUtf8("Please select a reference file to deduplicate"),
+            self.trUtf8("C:"),
+            self.trUtf8("*.txt"),
+            None)
+            
+            
+        self.txt_file.setText(fname)
+
+        
 
     
     @pyqtSignature("")
