@@ -32,7 +32,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         
         self.table_summary_2.setRowCount(5)
-        self.table_summary_2.setColumnCount(3)
+        self.table_summary_2.setColumnCount(4)
         self.table_summary_2.horizontalHeader().setVisible(True)
         self.table_summary_2.horizontalHeader().setVisible(True)
         
@@ -119,21 +119,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.table_summary_2.item(iteration,  0).setText(str(len(results[iteration].duplicates)))
             self.table_summary_2.item(iteration,  1).setText(str(len(results[iteration].edit)))
             self.table_summary_2.item(iteration,  2).setText(fname[:-4] + '_Iteration' + str(iteration) + '.txt')
+            self.table_summary_2.item(iteration,  3).setText(fname[:-4] + '_Duplicates' + str(iteration) + '.txt')
             
         self.table_summary_2.horizontalHeader().setStretchLastSection(True)
         self.table_summary_2.item(0,  2).setText(fname)
+        self.table_summary_2.item(0,  3).setText('')
         
         self.tabWidget.addTab(self.results_iterate_tab,  'Results - iterative dedup')
         self.tabWidget.setCurrentWidget(self.results_iterate_tab)
     
     def on_table_summary_2_cellDoubleClicked(self, row, column):
-        try:            
-            os.system("start " + str(self.table_summary_2.item(row,  2).text()))
-            #webbrowser.open(str(self.table_summary.item(row,  1).text()))
-        except IOError as e:
-            msg = 'File does not exist with specified path and name'
-            QMessageBox.warning(self, 'Error', msg, QMessageBox.Close)
-    
+        if(column > 1):
+            try:            
+                os.system("start " + str(self.table_summary_2.item(row,  column).text()))
+                #webbrowser.open(str(self.table_summary.item(row,  1).text()))
+            except IOError as e:
+                msg = 'File does not exist with specified path and name'
+                QMessageBox.warning(self, 'Error', msg, QMessageBox.Close)
+        
     
     @pyqtSignature("int, int")
     def on_table_summary_cellDoubleClicked(self, row, column):
