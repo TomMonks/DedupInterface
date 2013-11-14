@@ -32,6 +32,7 @@ def iterate_dedup(fileName, funcContainer):
 
     for i in range(1, len(results)):
         output_records(fileName[:-4], 'Iteration' + str(i), results[i].edit)
+        output_records(fileName[:-4], 'Duplicates' + str(i), results[i].duplicates)
         print 'it {0} - duplicates: {1}\tremaining: {2}'.format(i, len(results[i].duplicates), len(results[i].edit))
         total_dups += len(results[i].duplicates)
 

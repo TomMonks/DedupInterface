@@ -14,6 +14,4 @@ setup(  name = "Uniquify",
         version = "0.1",
         description = "Uniquify reference deduplication tool",
         options = {"build_exe": build_exe_options},
-        executables = [Executable("C:\Python Projects\DedupInterface\main.py", base=base)])
-
-build_exe( include_msvcr )
+        executables = [Executable("C:\Python Projects\DedupInterface\uniquify.py", base=base)])
