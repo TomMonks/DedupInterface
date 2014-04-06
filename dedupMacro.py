@@ -3,10 +3,12 @@ import string
 import sys
 from dedupFuncs import *
 
-def run_dedup(fileName):
+def run_dedup(fileList):
     print 'Reading records...'
-    all_records = read_records(fileName[:-4])
-
+    all_records = []
+    for fileName in fileList:
+        all_records += read_records(fileName[:-4])
+        
     print 'Excluding duplicate titles...'
     edited_records = unique_titles(all_records, lambda x: x[len(x)-1:][0])
     

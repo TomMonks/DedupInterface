@@ -43,28 +43,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tabWidget.removeTab(1)
         self.tabWidget.removeTab(1)
     
-    @pyqtSignature("")
-    def on_pushButton_clicked(self):
-        """
-        Browse for reference file *.txt
-        """
-        
-        fname = QFileDialog.getOpenFileName(\
-            None,
-            self.trUtf8("Please select a reference file to deduplicate"),
-            self.trUtf8("C:"),
-            self.trUtf8("*.txt"),
-            None)
-            
-            
-        self.txt_file.setText(fname)
+    
     
     @pyqtSignature("")
     def on_pushButton_2_clicked(self):
         """
         Runs the depulication and displays results
         """
-        if(self.txt_file.text() == ''):
+        self.run_uniquify()
+            
+    
+    def run_uniquify(self):
+        if(self.listWidget.count() == 0):
             msg = QMessageBox()
             msg.setText('No file has been selected for dedup')
             msg.setInformativeText('Use the browse button to browse for the correct reference file')
@@ -73,14 +63,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.exec_()
             return
         
-        
+        fileList = self.get_file_list()
+                
         if(self.rb_method_iteration.isChecked()):
-            results = iterate_dedup(str(self.txt_file.text()), self.user_preferences())
-            self.display_iterate_results(results,  self.txt_file.text())
+            #TO DO: Implement multiple file capability for the iteration (iteration needs fixing first!)
+            results = iterate_dedup(str(fileList[0]), self.user_preferences())
+            self.display_iterate_results(results,  self.listWidget.item(0).text())
         else:
-            results = run_dedup(str(self.txt_file.text()))
+            results = run_dedup(fileList)
             self.display_title_results(results)
-            
+    
+    def get_file_list(self):
+        fileList = []
+        for i in range(self.listWidget.count()):
+            fileList.append(str(self.listWidget.item(i).text()))
+        return fileList
+        
     
     def user_preferences(self):
         """Creates a function container dependent on user preferences returns a DedupFuncContainer"""
@@ -97,7 +95,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def display_title_results(self,  results):
         self.show_record_count(results)
-        self.show_file_paths(self.txt_file.text())
+        self.show_file_paths(self.listWidget.item(0).text())
         
         self.tabWidget.addTab(self.results_tab,  'Results - title dedup')
         self.tabWidget.setCurrentWidget(self.results_tab)
@@ -141,7 +139,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSignature("int, int")
     def on_table_summary_cellDoubleClicked(self, row, column):
         """
-        Slot documentation goes here.
+        Open reference file via double click
         """
         
         try:            
@@ -150,3 +148,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except IOError as e:
             msg = 'File does not exist with specified path and name'
             QMessageBox.warning(self, 'Error', msg, QMessageBox.Close)
+    
+    @pyqtSignature("")
+    def on_add_file_button_clicked(self):
+        """
+        Opens file brower and adds tselected file o QListWidget
+        """
+        fname = QFileDialog.getOpenFileName(\
+            None,
+            self.trUtf8("Please select a reference file to deduplicate"),
+            self.trUtf8("C:"),
+            self.trUtf8("*.txt"),
+            None)
+        
+        if(fname != ''):
+            self.listWidget.addItem(fname)
+    
+      
+        
+    
+    @pyqtSignature("")
+    def on_actionExit_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        self.close()
+    
+    @pyqtSignature("")
+    def on_actionRun_Uniquify_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        self.run_uniquify()
