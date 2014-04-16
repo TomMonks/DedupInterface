@@ -11,7 +11,7 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(  name = "Uniquify",
-        version = "0.1",
+        version = "0.2",
         description = "Uniquify reference deduplication tool",
         options = {"build_exe": build_exe_options},
-        executables = [Executable("C:\Python Projects\DedupInterface\uniquify.py", base=base)])
+        executables = [Executable("U:\GitHub\DedupInterface\main.py", base=base)])

@@ -2,6 +2,7 @@ import string
 
 import sys
 from dedupFuncs import *
+from diffFuncs import *
 
 def run_dedup(fileList):
     print 'Reading records...'
@@ -42,6 +43,28 @@ def iterate_dedup(fileName, funcContainer):
     print 'duplicates: {0}'.format(total_dups)    
 
     return results
+
+def run_diff(fileName1, fileName2):
+    print 'Reading records...'
+    
+    all_records_f1 = read_records(fileName1[:-4])
+    all_records_f2 = read_records(fileName2[:-4])
+        
+    print 'Creating markers for file 1'
+    seen = create_seen_list(all_records_f1, lambda x: x[len(x)-1:][0])
+
+    print 'Differencing...'
+    #i could use unqiue_title function if seen was an optional parameter
+    edited_records = diff(all_records_f2, seen, lambda x: x[len(x)-1:][0])
+    
+    print 'Outputting results...'
+    output_records(fileName2[:-4], 'diff', edited_records.edit)
+    output_records(fileName2[:-4], 'dups', edited_records.duplicates)
+
+    print 'differencing complete'
+    print 'unique files found: ', len(edited_records.duplicates)
+    
+    return DedupResultContainer(all_records_f2,  edited_records)
 
 class DedupResultContainer():
     def __init__(self,  found,  edited):

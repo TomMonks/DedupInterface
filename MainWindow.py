@@ -10,7 +10,6 @@ from PyQt4.QtGui import QFileDialog,  QMessageBox
 
 from Ui_MainWindow import Ui_MainWindow
 
-
 import webbrowser, os
 
 from dedupMacro import *
@@ -39,7 +38,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #hide the results widget
         self.results_tab = self.tabWidget.widget(1)
         self.results_iterate_tab = self.tabWidget.widget(2)
+        self.results_diff_tab = self.tabWidget.widget(3)
         
+        self.tabWidget.removeTab(1)
         self.tabWidget.removeTab(1)
         self.tabWidget.removeTab(1)
     
@@ -57,22 +58,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if(self.listWidget.count() == 0):
             msg = QMessageBox()
             msg.setText('No file has been selected for dedup')
-            msg.setInformativeText('Use the browse button to browse for the correct reference file')
+            msg.setInformativeText('Use the add button to browse for the correct reference file')
             msg.setWindowTitle('Setup issue')
             msg.setIcon(QMessageBox.Information)
             msg.exec_()
             return
+        #elif(self.listWidget.count() == 1  self.rb_method_diff.isChecked())
+         #   msg = QMessageBox()
+          #  msg.setText('Two files are needed to take a difference')
+          #  msg.setInformativeText('Use the add button to browse for the correct reference file')
+           # msg.setWindowTitle('Setup issue')
+           # msg.setIcon(QMessageBox.Information)
+           # msg.exec_()
+            #return
         
         fileList = self.get_file_list()
                 
         if(self.rb_method_iteration.isChecked()):
-            #TO DO: Implement multiple file capability for the iteration (iteration needs fixing first!)
+            # TO DO: Implement multiple file capability for the iteration (iteration needs fixing first!)
             results = iterate_dedup(str(fileList[0]), self.user_preferences())
             self.display_iterate_results(results,  self.listWidget.item(0).text())
-        else:
+        elif(self.rb_method_title.isChecked()):
             results = run_dedup(fileList)
             self.display_title_results(results)
-    
+        else:
+            results = run_diff(fileList[0],  fileList[1])
+            self.display_diff_results(results)
+            
     def get_file_list(self):
         fileList = []
         for i in range(self.listWidget.count()):
@@ -94,24 +106,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return fc
     
     def display_title_results(self,  results):
-        self.show_record_count(results)
-        self.show_file_paths(self.listWidget.item(0).text())
+        self.show_record_count(results,  self.table_summary)
+        self.show_file_paths(self.listWidget.item(0).text(),  self.table_summary)
         
         self.tabWidget.addTab(self.results_tab,  'Results - title dedup')
         self.tabWidget.setCurrentWidget(self.results_tab)
         
-    def show_record_count(self,  results):
-        self.table_summary.item(0, 0).setText(str(results.count_found()))
-        self.table_summary.item(1, 0).setText(str(results.count_unique()))
-        self.table_summary.item(2, 0).setText(str(results.count_title_duplicates()))
+    def show_record_count(self,  results,  summary):
+        summary.item(0, 0).setText(str(results.count_found()))
+        summary.item(1, 0).setText(str(results.count_unique()))
+        summary.item(2, 0).setText(str(results.count_title_duplicates()))
         
         
-    def show_file_paths(self,  fname):
-        self.table_summary.item(0, 1).setText(fname)
-        self.table_summary.item(1, 1).setText(fname[:-4] + '_edit.txt')
-        self.table_summary.item(2, 1).setText(fname[:-4] + '_dups.txt')
-        self.table_summary.horizontalHeader().setStretchLastSection(True)
+    def show_file_paths(self,  fname,  summary):
+        summary.item(0, 1).setText(fname)
+        summary.item(1, 1).setText(fname[:-4] + '_edit.txt')
+        summary.item(2, 1).setText(fname[:-4] + '_dups.txt')
+        summary.horizontalHeader().setStretchLastSection(True)
         
+        
+    def display_diff_results(self,  results):
+        self.show_record_count(results,  self.table_summary_diff)
+        self.show_file_paths_diff(self.listWidget.item(1).text(),  self.table_summary_diff)
+        
+        self.tabWidget.addTab(self.results_diff_tab,  'Results - Difference')
+        self.tabWidget.setCurrentWidget(self.results_diff_tab)
+    
+    def show_file_paths_diff(self,  fname,  summary):
+        summary.item(0, 1).setText(fname)
+        summary.item(1, 1).setText(fname[:-4] + '_diff.txt')
+        summary.item(2, 1).setText(fname[:-4] + '_dups.txt')
+        summary.horizontalHeader().setStretchLastSection(True)
+    
     def display_iterate_results(self,  results,  fname):
         for iteration in range(0, len(results)-1):
             self.table_summary_2.item(iteration,  0).setText(str(len(results[iteration].duplicates)))
@@ -182,3 +208,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         # TODO: not implemented yet
         self.run_uniquify()
+    
+    @pyqtSignature("int, int")
+    def on_table_summary_diff_cellDoubleClicked(self, row, column):
+        """
+        Slot documentation goes here.
+        """
+        try:            
+            os.system("start " + str(self.table_summary_diff.item(row,  1).text()))
+            #webbrowser.open(str(self.table_summary.item(row,  1).text()))
+        except IOError as e:
+            msg = 'File does not exist with specified path and name'
+            QMessageBox.warning(self, 'Error', msg, QMessageBox.Close)

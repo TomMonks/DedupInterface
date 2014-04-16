@@ -1,0 +1,30 @@
+#--------------------------------------------------------------------
+#
+#   Module:         difference
+#   Description:    Difference between 2 reference lists
+#   Author:         T.Monks
+#   Python ver:     2.7.2
+#
+#   Logic:          
+#--------------------------------------------------------------------
+
+import string
+import sys
+import dedupFuncs 
+
+def diff(seq_1, seq_2, idfun=None):
+    """ Difference two se"""
+    if idfun is None:
+        def idfun(x): return x
+    seen = {}
+    unique = Results()
+   
+    for item in seq:
+        marker = idfun(item)
+        if marker in seen:
+            unique.duplicates.append(item)
+            continue
+        seen[marker] = 1
+        unique.edit.append(item)
+
+    return unique
